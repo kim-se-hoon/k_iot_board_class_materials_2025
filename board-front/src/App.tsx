@@ -1,26 +1,44 @@
-import { SocialLoginButtons } from "./components/SocialLoginButtons";
+import { useEffect } from "react";
 import { useAuthStore } from "./stores/auth.store";
+import { userApi } from "./apis/user/user.api";
+import { GlobalStyle } from "./style/global";
+import Layout from "./components/layout/Layout";
+import AuthRouter from "./pages/auth/AuthRouter";
+import MainRouter from "./pages/MainRouter";
 
 export default function App() {
-  const { isInitialized, accessToken, user } = useAuthStore();
+  const { isInitialized, accessToken, user, setUser } = useAuthStore();
 
-  if (!isInitialized) return <div>Loading...</div>;
+  useEffect(() => {
+    if (!isInitialized) return;
+    if (!accessToken) return;
+    if (user) return;
+
+    (async () => {
+      if (accessToken && !user) {
+        const me = await userApi.me();
+        if (me.success && me.data) {
+          setUser(me.data);
+        }
+      }
+    })();
+  }, [isInitialized, accessToken]);
+
+  if (!isInitialized) {
+    return <div>로딩중</div>;
+  }
 
   const isLoggedIn = Boolean(accessToken && user);
 
   return (
     <>
+      <GlobalStyle />
       {isLoggedIn ? (
-        <>
-          로그인이 된 경우
-        </>
-        // <MainRouter />  // 로그인이 된 경우
+        <Layout>
+          <MainRouter />
+        </Layout>
       ) : (
-        // <AuthRouter />  // 로그인 필요
-        <>
-          로그인 필요
-          <SocialLoginButtons />
-        </>
+        <AuthRouter />
       )}
     </>
   );

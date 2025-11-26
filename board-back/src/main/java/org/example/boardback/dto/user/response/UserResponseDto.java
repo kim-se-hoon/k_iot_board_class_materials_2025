@@ -1,3 +1,4 @@
+
 package org.example.boardback.dto.user.response;
 
 import lombok.Builder;
