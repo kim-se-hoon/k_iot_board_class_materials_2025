@@ -9,7 +9,7 @@ interface HeaderProps {
 function Header({ onToggleSidebar }: HeaderProps) {
   return (
     <header css={headerStyle}>
-      <div className="sidebar-btn" onClick={onToggleSidebar}>🍔</div>
+      <div className="sidebar-btn" onClick={onToggleSidebar}>🔜</div>
       <h1>Board</h1>
       <div className="right">Login</div>
     </header>

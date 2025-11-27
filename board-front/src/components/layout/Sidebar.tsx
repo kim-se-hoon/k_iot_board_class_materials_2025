@@ -12,7 +12,7 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
     <aside css={sidebarStyle(isOpen)}>
       <div className="sidebar-header">
         <span>메뉴</span>
-        <button className="close" onClick={onClose}>❌</button>
+        <button className="close" onClick={onClose}>🔙</button>
       </div>
       <nav className='items'>
         <a>Dashboard</a>
